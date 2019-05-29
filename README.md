@@ -7,6 +7,9 @@ Simple Hello app using React Typescript with 2 components Input and Output
 - Chrome/Mozilla browser
 
 ## Usage:
+***We will solve this in 2 steps:***
+
+## Step 1: Simple build using Webpack and Runnning the app
 - Make directory/folder for the app and create files, **webpack.config.js** & **index.html**
 ```bash
 $ npm init -y
@@ -22,7 +25,7 @@ module.exports = {
   plugins: []
 }
 ```
-- Add a file to entry called **index.tsx** from the src folder like so **‘./src/index.tsx’**.Here,'.tsx' for React+Typescript
+- Add a file to entry called **index.tsx** from the src folder like so **‘./src/index.tsx’**.Here,'.tsx' for React+Typescript.
 - Also in the output, let’s put everything in a folder called **build** which will export using path, and collect all the combined js files into a **bundle.js**.
 In **webpck.config.js**
 ```javascript
@@ -61,7 +64,7 @@ In **index.html**
   </body>
 </html>
 ```
-## npms installation:
+### npms installation:
 Now we need to install all the npms we’ve referenced.
 1. For React and React-DOM:
 ```bash
@@ -152,3 +155,46 @@ module.exports = {
 };
 
 ```
+### Run the app on terminal using:
+```bash
+$ npm start
+```
+And Navigate to **localhost/8080** on browser.If you see 'Hello' on screen, then congrats,you did it.
+
+## Step 2: Hello User App with 2 components, Input and output
+- In **index.tsx**:
+```javascript
+import App from "./App";
+```
+And instead of 'Hello' header
+```javascript
+ReactDOM.render(<App />, ROOT);
+```
+- Create **App.tsx** file and **components** folder
+- In **components**,create **InputText.tsx** and **HelloOutput.tsx** files ( 2 components )
+* In **App.tsx**:
+  * App is nothing but a parent component of 2 components.Render method renders the react-dom.
+  * **HelloOutput** from outputMarkup will only bee there if **state.name** changed from "NoName". name and handleClick are the properties of **InputText** Component, while name is the property of **HelloOutput.tsx**
+  
+- We are using 2 components, we have to get value from one and print to another.But how can we access that value.Answer is through Parent.Hence we have lift the state of child level to parent level.You can use 'Redux' for state management while having complex applications.
+  
+* In **src/InputText.tsx** :
+  * Create and export interface of props **InputTextProps** with members as 'name' and 'handleClick'
+  * Use **nameRef** as html ref for having user input
+  ```js
+  onClick={() => this.props.handleClick(this.nameRef.current.value)}
+  ```
+  * onClick property will call the function of parent Component or the property of itself using the input ref value.
+  
+* In **src/HelloOutput.tsx** :
+  * Create and export interface of props **HelloOutputProps** with member as 'name'
+  * Print the 'Hello $User' message like
+  ```js
+  Hello {this.props.name.toUpperCase()}
+  ```
+  * 'name' is state member of parent Component, hence **this.props.name**
+  
+## Run:
+- Run the app using **npm start** as earlier step.
+- Navigate to **localhost/8080**
+- Type the desired name in input box and find the 'Hello $User' msg for it.
